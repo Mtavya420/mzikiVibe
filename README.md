@@ -1,4 +1,4 @@
-mziki Vibes 
+mziki Vibes
 Welcome to mziki Vibes, a Spotify clone app built with Tailwind and Redux! This app allows users to browse, search, and play music just like they would on Spotify.
 
 Getting Started
@@ -27,6 +27,10 @@ Tailwind CSS
 Spotify Web API
 Contributing
 If you'd like to contribute to mziki Vibes, feel free to open a pull request. Please follow the existing code style and ensure that any new code is well-tested.
+
+Here is the link for the webApp
+
+mzikivibe.vercel.app
 
 License
 This project is licensed under the MIT License. See the LICENSE file for details.
