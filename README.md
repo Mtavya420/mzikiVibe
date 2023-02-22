@@ -4,8 +4,8 @@ Welcome to mziki Vibes, a Spotify clone app built with Tailwind and Redux! This 
 Getting Started
 To get started with mziki Vibes, you will need to have Node.js and npm installed on your computer. Once you have those installed, follow these steps:
 
-Clone this repository: git clone https://github.com/mtavya420/mzikiVibes.git
-Change into the project directory: cd mziki-vibes
+Clone this repository: git clone https://github.com/Mtavya420/mzikiVibe.git
+Change into the project directory: cd mzikiVibe
 Install the dependencies: npm install
 Start the app: npm start
 Once the app is running, you can access it in your browser at http://localhost:3000.
