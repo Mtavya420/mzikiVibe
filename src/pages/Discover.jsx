@@ -1,65 +1,59 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
-import PlayPause from "../components/PlayPause";
-import { playPause, setActiveSong } from "../redux/features/playerSlice";
+import { Error, Loader, SongCard } from "../components";
+import { selectGenreListId } from "../redux/features/playerSlice";
+import { useGetSongsByGenreQuery } from "../redux/services/shazamCore";
+import { genres } from "../assets/constants";
 
-const SongCard = ({ song, isPlaying, activeSong, data, i }) => {
+const Discover = () => {
   const dispatch = useDispatch();
+  const { genreListId } = useSelector((state) => state.player);
+  const { activeSong, isPlaying } = useSelector((state) => state.player);
+  const { data, isFetching, error } = useGetSongsByGenreQuery(
+    genreListId || "POP"
+  );
 
-  const handlePauseClick = () => {
-    dispatch(playPause(false));
-  };
+  if (isFetching) return <Loader title="Loading songs..." />;
 
-  const handlePlayClick = () => {
-    dispatch(setActiveSong({ song, data, i }));
-    dispatch(playPause(true));
-  };
+  if (error) return <Error />;
+
+  const genreTitle = genres.find(({ value }) => value === genreListId)?.title;
 
   return (
-    <div className="flex flex-col w-[250px] p-4 bg-white/5 bg-opacity-80 backdrop-blur-sm animate-slideup rounded-lg cursor-pointer">
-      <div className="relative w-full h-56 group">
-        <div
-          className={`absolute inset-0 justify-center items-center bg-black bg-opacity-50 group-hover:flex ${
-            activeSong?.title === song.title
-              ? "flex bg-black bg-opacity-70"
-              : "hidden"
-          }`}
+    <div className="flex flex-col">
+      <div className="w-full flex justify-between items-center sm:flex-row flex-col mt-4 mb-10">
+        <h2 className="font-bold text-3xl text-white text-left">
+          Discover {genreTitle}
+        </h2>
+
+        <select
+          onChange={(e) => dispatch(selectGenreListId(e.target.value))}
+          value={genreListId || "pop"}
+          className="bg-black text-gray-300 p-3 text-sm rounded-lg outline-none sm:mt-0 mt-5"
         >
-          <PlayPause
-            isPlaying={isPlaying}
-            activeSong={activeSong}
-            song={song}
-            handlePause={handlePauseClick}
-            handlePlay={handlePlayClick}
-          />
-        </div>
-        <img
-          alt="song_img"
-          src={song.images?.coverart}
-          className="w-full h-full rounded-lg"
-        />
+          {genres.map((genre) => (
+            <option key={genre.value} value={genre.value}>
+              {genre.title}
+            </option>
+          ))}
+        </select>
       </div>
 
-      <div className="mt-4 flex flex-col">
-        <p className="font-semibold text-lg text-white truncate">
-          <Link to={`/songs/${song?.key}`}>{song.title}</Link>
-        </p>
-        <p className="text-sm truncate text-gray-300 mt-1">
-          <Link
-            to={
-              song.artists
-                ? `/artists/${song?.artists[0]?.adamid}`
-                : "/top-artists"
-            }
-          >
-            {song.subtitle}
-          </Link>
-        </p>
+      <div className="flex flex-wrap sm:justify-start justify-center gap-8">
+        {data?.map((song, i) => (
+          <SongCard
+            key={song.key}
+            song={song}
+            isPlaying={isPlaying}
+            activeSong={activeSong}
+            data={data}
+            i={i}
+          />
+        ))}
       </div>
     </div>
   );
 };
 
-export default SongCard;
+export default Discover;
