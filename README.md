@@ -8,7 +8,7 @@ Clone this repository: git clone https://github.com/Mtavya420/mzikiVibe.git
 Change into the project directory: cd mzikiVibe
 Install the dependencies: npm install
 Start the app: npm start
-Once the app is running, you can access it in your browser at http://localhost:3000.
+Once the app is running, you can access it in your browser at https://mzikivibe.vercel.app.
 
 Features
 Some of the key features of mziki Vibes include:
